@@ -1,0 +1,18 @@
+{
+    "C_Cpp.default.intelliSenseMode": "windows-gcc-x64",
+    "C_Cpp.errorSquiggles": "enabled",
+    "clangd.arguments": [
+        "--query-driver=D:/mingw64/bin/g++.exe"
+    ],
+    "terminal.integrated.env.windows": {
+        "PATH": "D:/mingw64/bin;${env:PATH}"
+    },
+    "search.exclude": {
+        "build": true,
+        ".venv": true
+    },
+    "cmake.useCMakePresets": "always",
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "cmake.buildDirectory": "${workspaceFolder}/build/cmake",
+    "cmake.cmakePath": "C:/Program Files/CMake/bin/cmake.exe"
+}

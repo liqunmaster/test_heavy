@@ -1,0 +1,8 @@
+CompileFlags:
+  CompilationDatabase: build/cmake
+  Compiler: D:/mingw64/bin/g++.exe
+  Add:
+    - -std=c++17
+    - -D_WIN32
+    - -DUNICODE
+    - -D_UNICODE

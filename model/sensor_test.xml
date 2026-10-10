@@ -1,0 +1,18 @@
+<mujoco model="sensor_test">
+  <worldbody>
+    <geom name="floor" type="plane" size="3 3 0.1"/>
+    <geom name="wall" type="box" pos="1 0 0.3" size="0.1 0.5 0.3"/>
+    <body name="chassis" pos="0 0 0.153">
+      <site name="imu_site" pos="0 0 0.155"/>
+      <site name="range_front_site" pos="0.330 0 0.098"
+            quat="0.707106781186548 0 0.707106781186548 0"/>
+      <site name="range_down_site" pos="0 0 0" quat="0 1 0 0"/>
+    </body>
+  </worldbody>
+  <sensor>
+    <gyro name="imu_gyro" site="imu_site"/>
+    <accelerometer name="imu_accel" site="imu_site"/>
+    <rangefinder name="range_front" site="range_front_site"/>
+    <rangefinder name="range_down" site="range_down_site"/>
+  </sensor>
+</mujoco>
