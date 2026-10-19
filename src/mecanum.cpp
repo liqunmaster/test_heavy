@@ -1,5 +1,3 @@
-// Pure C++ controller using MuJoCo's official simulate UI.
-// Tune speed and geometry in mecanum_config.h. No Python runtime is required.
 #include <algorithm>
 #include <atomic>
 #include <chrono>
@@ -35,7 +33,7 @@ class ChassisAdapter : public mujoco::GlfwAdapter {
 
     void PollEvents() override {
         mujoco::GlfwAdapter::PollEvents();
-        // GLFW input stays on the render thread; physics reads an atomic snapshot.
+
         GLFWwindow* window = glfwGetCurrentContext();
         if (!window || !glfwGetWindowAttrib(window, GLFW_FOCUSED) || editing() ||
             IsAltKeyPressed() || IsCtrlKeyPressed()) {
@@ -88,7 +86,7 @@ class ChassisAdapter : public mujoco::GlfwAdapter {
                 case GLFW_KEY_UP: case GLFW_KEY_DOWN: case GLFW_KEY_LEFT: case GLFW_KEY_RIGHT:
                 case GLFW_KEY_Q: case GLFW_KEY_E:
                 case GLFW_KEY_LEFT_SHIFT: case GLFW_KEY_RIGHT_SHIFT:
-                    return;  // Reserve chassis keys rather than triggering UI shortcuts.
+                    return;
             }
         }
         mujoco::GlfwAdapter::OnKey(key, scancode, action);
@@ -216,7 +214,7 @@ void physics(mujoco::Simulate& sim, ChassisAdapter& input, ModelPtr& modelOwner,
         }
     }
 }
-}  // namespace
+}
 
 int main(int argc, char** argv) {
     try {
@@ -234,7 +232,7 @@ int main(int argc, char** argv) {
         if (!model) throw std::runtime_error(error);
         DataPtr data(mj_makeData(model.get()), mj_deleteData);
         if (!data) throw std::runtime_error("Cannot allocate simulation data");
-        const mecanum::ModelJoints joints(model.get());  // Validate before starting the UI/thread.
+        const mecanum::ModelJoints joints(model.get());
         mj_forward(model.get(), data.get());
         mjvCamera cam; mjv_defaultCamera(&cam);
         mjvOption opt; mjv_defaultOption(&opt);

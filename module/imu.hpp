@@ -19,11 +19,11 @@ struct Distance {
 
 struct ImuReading {
     double time = 0;
-    std::array<double, 3> gyro{};          // rad/s, sensor-local XYZ
-    std::array<double, 3> acceleration{};  // m/s^2, sensor-local XYZ (specific force)
-    double roll = 0;                       // radians, sensor frame relative to level
+    std::array<double, 3> gyro{};
+    std::array<double, 3> acceleration{};
+    double roll = 0;
     double pitch = 0;
-    double yaw = 0;                        // radians, relative to initial heading
+    double yaw = 0;
     Distance front;
     Distance down;
 };
@@ -45,4 +45,4 @@ class Imu {
     ImuReading reading_;
 };
 
-}  // namespace chassis
+}

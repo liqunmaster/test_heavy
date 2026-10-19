@@ -3,15 +3,8 @@
 #include <cstdlib>
 #include <cmath>
 
-// 仿真时长（秒）
 static const double kSimDuration = 3.0;
 
-/**
- * @brief 加载 MuJoCo 模型
- *
- * @param xmlPath 模型 XML 文件路径
- * @return 成功返回模型指针，失败返回 NULL
- */
 mjModel* LoadModel(const char* xmlPath)
 {
     char error[1024] = {0};
@@ -23,12 +16,6 @@ mjModel* LoadModel(const char* xmlPath)
     return model;
 }
 
-/**
- * @brief 创建仿真数据
- *
- * @param model 已加载的 MuJoCo 模型
- * @return 成功返回数据指针，失败返回 NULL
- */
 mjData* MakeData(const mjModel* model)
 {
     if (!model)
@@ -43,14 +30,6 @@ mjData* MakeData(const mjModel* model)
     return data;
 }
 
-/**
- * @brief 推进仿真并统计峰值动能
- *
- * @param model MuJoCo 模型
- * @param data  MuJoCo 仿真数据
- * @param nstep 步进次数
- * @return 仿真期间动能的最大值（J）
- */
 double RunSimulation(const mjModel* model, mjData* data, int nstep)
 {
     if (!model || !data)
@@ -61,7 +40,7 @@ double RunSimulation(const mjModel* model, mjData* data, int nstep)
     for (int i = 0; i < nstep; ++i)
     {
         mj_step(model, data);
-        // 3.15 起能量需显式计算：mj_energyVel 写入 energy[1]（动能）
+
         mj_energyVel(model, data);
         if (data->energy[1] > peakKinetic)
         {
@@ -73,13 +52,6 @@ double RunSimulation(const mjModel* model, mjData* data, int nstep)
     return peakKinetic;
 }
 
-/**
- * @brief 打印仿真结果摘要
- *
- * @param model       MuJoCo 模型
- * @param data        MuJoCo 仿真数据
- * @param peakKinetic 仿真期间峰值动能（J）
- */
 void PrintSummary(const mjModel* model, const mjData* data, double peakKinetic)
 {
     const double kRad2Deg = 180.0 / 3.14159265358979;
@@ -102,13 +74,6 @@ void PrintSummary(const mjModel* model, const mjData* data, double peakKinetic)
     std::printf("末端位置   : %.4f %.4f %.4f\n", data->site_xpos[0 * 3 + 0], data->site_xpos[0 * 3 + 1], data->site_xpos[0 * 3 + 2]);
 }
 
-/**
- * @brief 程序入口
- *
- * @param argc 命令行参数个数
- * @param argv 命令行参数数组
- * @return 运行成功返回 0，失败返回 1
- */
 int main(int argc, char* argv[])
 {
     const char* xmlPath = (argc > 1) ? argv[1] : "model/pendulum.xml";
@@ -123,7 +88,7 @@ int main(int argc, char* argv[])
         mj_deleteModel(model);
         return 1;
     }
-    // 从 keyframe "swing" 恢复初始姿态（30°/-45°）
+
     if (model->nkey > 0)
     {
         mj_resetDataKeyframe(model, data, 0);

@@ -1,4 +1,3 @@
-<!-- 双摆演示模型 -->
 <mujoco model="double_pendulum">
   <option timestep="0.002" integrator="RK4"/>
   <worldbody>

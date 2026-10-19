@@ -12,7 +12,7 @@ void near(double actual, double expected, double tolerance = 1e-5) {
         throw std::runtime_error("Expected " + std::to_string(expected) +
                                  ", got " + std::to_string(actual));
 }
-}  // namespace
+}
 
 int main() {
     try {

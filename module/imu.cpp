@@ -23,7 +23,7 @@ Distance readDistance(const mjData* data, int address) {
     return {std::isfinite(metres) && metres >= 0 ? metres : 0,
             std::isfinite(metres) && metres >= 0};
 }
-}  // namespace
+}
 
 Imu::Imu(const mjModel* model, SensorNames names)
     : model_(model),
@@ -80,4 +80,4 @@ const ImuReading& Imu::update(const mjData* data) {
     }
     return reading_;
 }
-}  // namespace chassis
+}

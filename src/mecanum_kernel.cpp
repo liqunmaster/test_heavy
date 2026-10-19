@@ -1,4 +1,3 @@
-// Headless C++ demonstration using the same fixed-reference control as the viewer.
 #include <array>
 #include <cmath>
 #include <filesystem>
@@ -24,7 +23,7 @@ int main(int argc, char** argv) {
         mj_forward(model.get(), data.get());
         sensors.update(data.get());
         const double initialYaw = data->qpos[joints.qpos[2]];
-        // duration(s), fixed-reference vx(m/s), vy(m/s), yaw rate(rad/s)
+
         const std::array<double, 4> segments[] = {
             {2, 1, 0, 0}, {2, 0, 1, 0}, {2, 0, 0, 1},
             {2, std::sqrt(.5), std::sqrt(.5), 0}, {2, 1, 0, .5}

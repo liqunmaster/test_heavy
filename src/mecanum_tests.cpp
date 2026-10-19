@@ -1,4 +1,3 @@
-// Independent forward-kinematics reconstruction and rotating-translation regression tests.
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -22,7 +21,6 @@ void checkWheels(const mecanum::Command& command, double yaw) {
     near(spin, command.world.yaw);
 }
 
-// Project the actual rotated primitives, rather than checking only wheel centres.
 double extent(const mjModel* model, const mjData* data, int geom, int axis) {
     const auto* s = model->geom_size + 3 * geom;
     const auto* r = data->geom_xmat + 9 * geom + 3 * axis;
@@ -51,7 +49,7 @@ void checkFootprint(const mjModel* model, const mecanum::ModelJoints& joints) {
         mj_forward(model, data.get());
         for (int g = 0; g < model->ngeom; ++g) {
             const int body = model->geom_bodyid[g];
-            if (body == 0) continue; // The ground is not part of the chassis.
+            if (body == 0) continue;
             const char* bodyName = mj_id2name(model, mjOBJ_BODY, body);
             const bool wheel = bodyName && std::string(bodyName).rfind("wheel_", 0) == 0;
             for (int axis = 0; axis < 3; ++axis) {
@@ -73,7 +71,7 @@ void checkFootprint(const mjModel* model, const mecanum::ModelJoints& joints) {
             }
         }
     }
-    near(wheelRadius, kWheelRadius, 2e-6); // Includes rollers throughout a full turn.
+    near(wheelRadius, kWheelRadius, 2e-6);
     if (2 * kWheelHalfLength - 2 * wheelRadius < .020)
         throw std::runtime_error("Front/rear wheels have less than 20 mm clearance");
     if (kWheelHalfTrack - wheelHalfWidth - kDeckHalfWidth < .005)
@@ -82,7 +80,7 @@ void checkFootprint(const mjModel* model, const mecanum::ModelJoints& joints) {
               << 2000 * halfExtent[1] << " mm; front/rear wheel gap: "
               << 2000 * (kWheelHalfLength - wheelRadius) << " mm.\n";
 }
-}  // namespace
+}
 
 int main() {
     try {
@@ -109,8 +107,7 @@ int main() {
             mj_loadXML("model/mecanum_wheel.xml", nullptr, error, sizeof(error)), mj_deleteModel);
         if (!model) throw std::runtime_error(error);
         const ModelJoints joints(model.get());
-        // The generated scene includes climb obstacles; disable them for pure
-        // kinematics regression so contact does not alter the expected path.
+
         for (const char* name : {"single_side_bridge_5cm", "step_20cm"}) {
             const int geom = mj_name2id(model.get(), mjOBJ_GEOM, name);
             if (geom >= 0) {
@@ -131,8 +128,7 @@ int main() {
             near(model->geom_size[3 * id] * 2, 2 * kDeckHalfSize);
             near(model->geom_size[3 * id + 1] * 2, 2 * kDeckHalfWidth);
         }
-        // The vertical rods sit outside the deck edge, leaving clearance instead of
-        // relying on coincident collision geometry to behave like a drilled hole.
+
         for (const char* name : {"susp_fl", "susp_fr", "susp_rl", "susp_rr"}) {
             const int body = mj_name2id(model.get(), mjOBJ_BODY, name);
             const double rodY = std::abs(model->body_pos[3 * body + 1]);

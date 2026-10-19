@@ -11,10 +11,9 @@ struct Velocity {
 };
 struct Command {
     Velocity world;
-    std::array<double, 4> wheels;  // FL, FR, RL, RR; rad/s
+    std::array<double, 4> wheels;
 };
 
-// Input is expressed in the fixed starting frame. Wheel speeds are body-frame.
 inline Command solve(double referenceX, double referenceY, double spin,
                      double chassisYaw, double referenceYaw = 0) {
     const double cr = std::cos(referenceYaw), sr = std::sin(referenceYaw);
@@ -37,4 +36,4 @@ inline Command keyboardCommand(double forward, double left, bool ccw, bool cw,
                  kAngularSpeed * (static_cast<int>(ccw) - static_cast<int>(cw)),
                  chassisYaw, referenceYaw);
 }
-}  // namespace mecanum
+}

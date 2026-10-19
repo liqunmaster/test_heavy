@@ -8,7 +8,7 @@ namespace chassis {
 
 struct SuspensionConfig {
     std::array<const char*, 4> motors{"motor_fl", "motor_fr", "motor_rl", "motor_rr"};
-    double targetHeight = 0.175;  // Downward sensor height above the surface, metres
+    double targetHeight = 0.175;
     double heightP = 0.8;
     double heightD = 0.08;
     double rollP = 0.42;
@@ -20,7 +20,7 @@ struct SuspensionConfig {
 struct SuspensionStatus {
     bool heightValid = false;
     double height = 0;
-    std::array<double, 4> targets{};  // FL, FR, RL, RR, vertical rod travel in metres
+    std::array<double, 4> targets{};
 };
 
 class ActiveSuspension {

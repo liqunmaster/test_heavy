@@ -24,4 +24,4 @@ struct ModelJoints {
         for (int i = 0; i < 4; ++i) data->qvel[qvel[3 + i]] = command.wheels[i];
     }
 };
-}  // namespace mecanum
+}
